@@ -44,12 +44,25 @@ class Location {
     protected $lng;
 
     public function __construct($name = '', $address = '', $lat = '', $lng = '') {
+        
+      /*  echo $lat;
+        die();
         $this->name = $name;
         $this->address = $address;
         $this->lat = $lat;
-        $this->lng = $lng;
+        $this->lng = $lng;*/
     }
 
+        /**
+     * Set id
+     *
+     * @return \Integer
+     */
+    public function setId()
+    {
+        return $this->id;
+    }
+    
         /**
      * Get id
      *
