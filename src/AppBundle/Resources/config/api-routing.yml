@@ -1,0 +1,4 @@
+locations_api:
+    type: rest
+    resource: "@AppBundle/Controller/LocationsController.php"
+    name_prefix:  api_locations_
