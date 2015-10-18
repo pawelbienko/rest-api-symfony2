@@ -2,6 +2,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Location;
+use AppBundle\Form\LocationType;
+use AppBundle\Helper\ApiHelper;
 
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -30,7 +32,7 @@ class LocationsController extends FOSRestController {
      */
     
     public function getLocationsAction(Request $request, ParamFetcherInterface $paramFetcher){
-        
+ 
         $offset = $paramFetcher->get('offset');
         $start = null == $offset ? 0 : $offset + 1;
         $limit = $paramFetcher->get('limit');
@@ -39,6 +41,24 @@ class LocationsController extends FOSRestController {
                          ->getRepository('AppBundle:Location')
                          ->findAll();
         return array_slice($locations, $start, $limit, true);
+    }
+    
+     /**
+     * 
+     * @param \AppBundle\Controller\Request $request
+     */
+    public function postArticlesAction(Request $request){
+        $location = new Location();
+        $errors  = ApiHelper::treatAndValidateRequest($location, $request);
+        if(count($errors) > 0) {
+            return new View(
+                $errors,
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $this->persistAndFlush($location);
+        return new View($location, Response::HTTP_CREATED);
     }
 }
 /* $loction = $this->getDoctrine()
